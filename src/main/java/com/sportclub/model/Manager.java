@@ -1,7 +1,6 @@
 package com.sportclub.model;
 import java.time.LocalDate;
 
-
 public class Manager extends Recepcjonista {
     public Manager(String imie, String nazwisko, LocalDate dataUrodzenia, DzialPracownikow dzial, String login, String haslo) {
         super(imie, nazwisko, dataUrodzenia, dzial, login, haslo);
