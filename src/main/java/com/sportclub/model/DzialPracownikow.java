@@ -10,7 +10,7 @@ public class DzialPracownikow {
 
     private String nazwa;
 
-    public DzialPracownikow(String nazwa) {
+    private DzialPracownikow(String nazwa) {
         this.nazwa = nazwa;
     }
 

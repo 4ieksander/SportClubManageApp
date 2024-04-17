@@ -1,7 +1,10 @@
 package com.sportclub.model;
-import java.time.LocalDate;
 
 import com.sportclub.util.IDobryPracownik;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracownik {
@@ -12,6 +15,7 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
     private LocalDate dataUrodzenia;
     private boolean czyZdrowy;
     private DzialPracownikow dzial;
+    private static final List<Pracownik> wszyscyPracownicy = new ArrayList<>();
 
     public Pracownik(String imie, String nazwisko, LocalDate dataUrodzenia, DzialPracownikow dzial) {
         this.id = nextId++;
@@ -19,17 +23,24 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
         this.nazwisko = nazwisko;
         this.dataUrodzenia = dataUrodzenia;
         this.dzial = dzial;
-        this.czyZdrowy = true;  // Domyślna wartość to true
+        this.czyZdrowy = true; // Domyślna wartość to true
+        wszyscyPracownicy.add(this);
     }
 
     public abstract void pracuj();
 
+
     @Override
     public int compareTo(Pracownik o) {
-        // Można dostosować porównanie, np. wg nazwiska, imienia
-        int last = this.nazwisko.compareTo(o.nazwisko);
-        return last == 0 ? this.imie.compareTo(o.imie) : last;
+        // Przykład porównania najpierw po nazwisku, potem po imieniu
+        int lastCmp = this.nazwisko.compareTo(o.nazwisko);
+        if (lastCmp != 0) {
+            return lastCmp;
+        }
+        return this.imie.compareTo(o.imie);
     }
+
+
 
     // Gettery i settery
     public int getId() { return id; }
@@ -43,9 +54,7 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
     public DzialPracownikow getDzial() { return dzial; }
     public void setDzial(DzialPracownikow dzial) { this.dzial = dzial; }
 
-    public abstract void pracujEfektywnie();
-
-    public abstract void współpracujZInnymi();
-
-    public abstract void rozwijajUmiejętności();
+    public static List<Pracownik> getWszyscyPracownicy() {
+        return new ArrayList<>(wszyscyPracownicy);
+    }
 }
