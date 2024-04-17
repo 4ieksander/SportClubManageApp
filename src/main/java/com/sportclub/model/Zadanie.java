@@ -2,20 +2,29 @@ package com.sportclub.model;
 
 import java.time.LocalDateTime;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Zadanie extends Thread {
+    private static final AtomicInteger nextId = new AtomicInteger(1);
+    // AtomicInteger jest bezpieczniejsze od podejścia w np. Pracownik (możliwe wystąpienie wielowątkowości)
+    private final int id;
     private String nazwa;
     private String opis;
     private enum Stan { Utworzone, Rozpoczete, Zakonczone }
     private Stan stan;
+    private boolean zatwierdzone;
     private LocalDateTime dataUtworzenia;
     private LocalDateTime dataZakonczenia;
     private int czasWykonania;
 
+
+    // Konstruktory
     public Zadanie(String nazwa, String opis) {
+        this.id = nextId.getAndIncrement();
         this.nazwa = nazwa;
         this.opis = opis;
         this.stan = Stan.Utworzone;
+        this.zatwierdzone = false;
         this.dataUtworzenia = LocalDateTime.now();
         this.czasWykonania = new Random().nextInt(6) + 3;  // losowa wartość między 3 a 8 sekundami
     }
@@ -24,15 +33,20 @@ public class Zadanie extends Thread {
         this(nazwa, "Brak opisu");
     }
 
+    // Główna metoda
     @Override
     public void run() {
+        if (!zatwierdzone) {
+            System.out.println("Zadanie " + nazwa + " nie jest zatwierdzone i nie może być rozpoczęte.");
+            return;
+        }
         if (stan == Stan.Utworzone) {
             stan = Stan.Rozpoczete;
             System.out.println("Rozpoczęcie zadania: " + nazwa);
             try {
                 for(int i = 0; i < czasWykonania; i++) {
                     Thread.sleep(1000);
-                    System.out.println("Zadanie '" + nazwa + "' - pozostały czas: " + i + "s...");
+                    System.out.println("Zadanie '" + nazwa + "' - pozostały czas: " + (czasWykonania - i) + "s...");
                 }
             } catch (InterruptedException e) {
                 System.out.println("Zadanie zostało przerwane");
@@ -46,8 +60,39 @@ public class Zadanie extends Thread {
         }
     }
 
+
+    // gettery i settery
+
+    public int getZadanieId() { // getId() jest zajęte przez wbudowaną metodę zwracającą rzeczywiste id
+        return this.id;
+    }
+
+    public String getNazwa() {
+        return nazwa;
+    }
+
+    public void setNazwa(String nazwa) {
+        this.nazwa = nazwa;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
+
     public String getStan() {
         return stan.name();
+    }
+
+    public boolean isZatwierdzone() {
+        return zatwierdzone;
+    }
+
+    public void setZatwierdzone(boolean zatwierdzone) {
+        this.zatwierdzone = zatwierdzone;
     }
 
     public LocalDateTime getDataUtworzenia() {
@@ -57,4 +102,5 @@ public class Zadanie extends Thread {
     public LocalDateTime getDataZakonczenia() {
         return dataZakonczenia;
     }
+
 }

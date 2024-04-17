@@ -7,11 +7,15 @@ import java.util.Set;
 
 public class DzialPracownikow {
     private static final Set<String> nazwyDzialow = new HashSet<>();
-
     private String nazwa;
+    private Set<String> pracownicy;
+
+    public DzialPracownikow(){
+    }
 
     private DzialPracownikow(String nazwa) {
         this.nazwa = nazwa;
+        this.pracownicy = new HashSet<>();
     }
 
     public static DzialPracownikow createDzial(String nazwa) throws NotUniqueNameException {
@@ -24,5 +28,13 @@ public class DzialPracownikow {
 
     public String getNazwa() {
         return nazwa;
+    }
+
+    public void dodajPracownika(String nazwaPracownika) {
+        pracownicy.add(nazwaPracownika);
+    }
+
+    public Set<String> getPracownicy() {
+        return new HashSet<>(pracownicy);  // Return a copy to prevent external modification
     }
 }

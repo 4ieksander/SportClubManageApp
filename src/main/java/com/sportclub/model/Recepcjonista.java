@@ -1,8 +1,10 @@
 package com.sportclub.model;
+
 import java.time.LocalDate;
 
 
 public class Recepcjonista extends Pracownik {
+
     private String login;
     private String haslo;
     private String initial;
@@ -16,6 +18,34 @@ public class Recepcjonista extends Pracownik {
 
     private String generateInitial(String imie, String nazwisko) {
         return "" + imie.charAt(0) + nazwisko.charAt(0);
+    }
+
+    // Metody specyficzne dla recepcjonisty
+    public void checkInGuest(String guestName) {
+        System.out.println("Checking in guest: " + guestName);
+    }
+
+
+    // Gettery i settery
+    public String getLogin() { return login; }
+    public void setLogin(String login) { this.login = login; }
+    public String getHaslo() { return haslo; }
+    public void setHaslo(String haslo) { this.haslo = haslo; }
+    public String getInitial() { return initial; }
+
+
+
+    // Obsługa zmiany imienia lub nazwiska z aktualizacją inicjałów
+    @Override
+    public void setImie(String imie) {
+        super.setImie(imie);
+        this.initial = generateInitial(imie, getNazwisko());
+    }
+
+    @Override
+    public void setNazwisko(String nazwisko) {
+        super.setNazwisko(nazwisko);
+        this.initial = generateInitial(getImie(), nazwisko);
     }
 
     @Override
@@ -36,21 +66,5 @@ public class Recepcjonista extends Pracownik {
     @Override
     public void rozwijajUmiejętności() {
         System.out.println("Uczestnictwo w szkoleniach z obsługi klienta.");
-    }
-
-    // Gettery i settery
-    public String getLogin() { return login; }
-    public void setLogin(String login) { this.login = login; }
-    public String getHaslo() { return haslo; }
-    public void setHaslo(String haslo) { this.haslo = haslo; }
-    public String getInitial() { return initial; }
-    // Uwzględnienie zmiany imienia lub nazwiska
-    public void setImie(String imie) {
-        super.setImie(imie);
-        this.initial = generateInitial(imie, getNazwisko());
-    }
-    public void setNazwisko(String nazwisko) {
-        super.setNazwisko(nazwisko);
-        this.initial = generateInitial(getImie(), nazwisko);
     }
 }
