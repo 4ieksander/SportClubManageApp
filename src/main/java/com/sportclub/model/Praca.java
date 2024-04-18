@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 
 
 public class Praca implements Runnable {
+    private static final AtomicInteger nextId = new AtomicInteger(1);
+    private final int id;
     private List<Zadanie> zadania;
     private String opis;
     private Zespol zespol;
@@ -16,6 +19,7 @@ public class Praca implements Runnable {
 
     // konstruktor
     public Praca(String opis, Zespol zespol) {
+        this.id = nextId.getAndIncrement();
         this.zadania = new ArrayList<>();
         this.opis = opis;
         this.zespol = zespol;

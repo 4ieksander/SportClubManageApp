@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Zespol {
+    private static int nextId = 1;
+    private final int id;
     private String nazwa;
     private Manager manager;
     private Praca praca;
@@ -11,6 +13,7 @@ public class Zespol {
 
 
     public Zespol(String nazwa, Manager manager) {
+        this.id = nextId++;
         this.nazwa = nazwa;
         this.manager = manager;
         this.pracownicy = new ArrayList<>();

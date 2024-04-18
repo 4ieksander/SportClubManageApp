@@ -6,11 +6,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DzialPracownikow {
+    private static int nextId = 1;
+    private final int id;
     private static final Set<String> nazwyDzialow = new HashSet<>();
     private String nazwa;
     private Set<Pracownik> pracownicy;
 
     private DzialPracownikow(String nazwa) {
+        this.id = nextId++;
         this.nazwa = nazwa;
         this.pracownicy = new HashSet<>();
     }
