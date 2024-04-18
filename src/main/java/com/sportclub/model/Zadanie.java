@@ -19,19 +19,20 @@ public class Zadanie extends Thread {
 
 
     // Konstruktory
-    public Zadanie(String nazwa, String opis) {
+    public Zadanie(String nazwa, String opis, boolean zatwierdzone) {
         this.id = nextId.getAndIncrement();
         this.nazwa = nazwa;
         this.opis = opis;
+        this.zatwierdzone = zatwierdzone;
         this.stan = Stan.Utworzone;
-        this.zatwierdzone = false;
         this.dataUtworzenia = LocalDateTime.now();
         this.czasWykonania = new Random().nextInt(6) + 3;  // losowa wartość między 3 a 8 sekundami
     }
 
     public Zadanie(String nazwa) {
-        this(nazwa, "Brak opisu");
+        this(nazwa, "Brak opisu", false);
     }
+
 
     // Główna metoda
     @Override
