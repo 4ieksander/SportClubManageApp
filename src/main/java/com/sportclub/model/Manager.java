@@ -1,9 +1,39 @@
 package com.sportclub.model;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Manager extends Recepcjonista {
     public Manager(String imie, String nazwisko, LocalDate dataUrodzenia, DzialPracownikow dzial, String login, String haslo) {
         super(imie, nazwisko, dataUrodzenia, dzial, login, haslo);
+    }
+
+
+    @Override
+    public List<Zespol> getZespoly() {
+        return super.getZespoly();
+    }
+
+    public List<Zadanie> getZadaniaWZespole(Zespol zespol) {
+        Praca praca = zespol.getPraca();
+        List<Zadanie> zadaniaWZespole = praca.getZadania();
+        System.out.println("Zadania w zespole "+ zespol.getNazwa() + ":");
+        for (Zadanie zadanie : zadaniaWZespole){
+            System.out.println(zadanie);
+        }
+        return zadaniaWZespole;
+    }
+
+    // Metoda do zwracania listy zespołów dla danego zadania
+    public List<Zespol> getZespolyZadania(Zadanie zadanie) {
+        List<Zespol> zespolyZadania = new ArrayList<>();
+        for (Zespol zespol : zespoly) {
+            if (zespol.getPracownicy().contains(this) && zadania.contains(zadanie)) {
+                zespolyZadania.add(zespol);
+            }
+        }
+        return zespolyZadania;
     }
 
     @Override
