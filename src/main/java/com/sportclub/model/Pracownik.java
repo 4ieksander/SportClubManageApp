@@ -4,6 +4,8 @@ import com.sportclub.util.IDobryPracownik;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -15,6 +17,8 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
     private LocalDate dataUrodzenia;
     private boolean czyZdrowy;
     private DzialPracownikow dzial;
+    protected List<Zespol> zespoly = new ArrayList<>();
+    protected List<Zadanie> zadania = new ArrayList<>();
     private static final List<Pracownik> wszyscyPracownicy = new ArrayList<>();
 
     public Pracownik(String imie, String nazwisko, LocalDate dataUrodzenia, DzialPracownikow dzial) {
@@ -28,6 +32,22 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
     }
 
     public abstract void pracuj();
+
+    public List<Zadanie> getZadania() {
+        return new ArrayList<>(zadania);
+    }
+
+    public void dodajZadanie(Zadanie zadanie) {
+         this.zadania.add(zadanie);
+    }
+
+    public void dodajZespol(Zespol zespol) {
+        zespoly.add(zespol);
+    }
+
+    public List<Zespol> getZespoly() {
+        return new ArrayList<>(zespoly);
+    }
 
 
     @Override
