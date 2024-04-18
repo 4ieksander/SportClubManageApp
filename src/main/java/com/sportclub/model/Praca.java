@@ -26,6 +26,8 @@ public class Praca implements Runnable {
      * @param zadanie Zadanie do dodania.
      */
     public void dodajZadanie(Zadanie zadanie) {
+        Manager manager = zespol.getManager();
+        manager.dodajZadanie(zadanie);
         zadania.add(zadanie);
         mapaZadan.put(zadanie.getZadanieId(), zadanie); // metoda getId() jest zajęta (wbudowana)
     }
@@ -49,14 +51,38 @@ public class Praca implements Runnable {
             return;
         }
 
+        /// Nie zatwierdzone zadania
+        List<Zadanie> niezatwierdzoneZadania = zadania.stream()
+                .filter(zadanie -> !zadanie.isZatwierdzone())
+                .collect(Collectors.toList());
+
+        if (!niezatwierdzoneZadania.isEmpty()) {
+            System.out.println("Niezatwierdzone zadania:");
+            for (Zadanie zadanie : niezatwierdzoneZadania) {
+                System.out.println(zadanie.getNazwa());
+            }
+        }
+
+        /// Zatwierdzone zadania
         System.out.println("Rozpoczęcie pracy: " + opis);
         List<Zadanie> doWykonania = zadania.stream()
                 .filter(Zadanie::isZatwierdzone)
                 .collect(Collectors.toList());
 
+        if (doWykonania.isEmpty()) {
+            System.out.println("Brak zatwierdzonych zadań do wykonania.");
+            return;
+        }
+
         for (Zadanie zadanie : doWykonania) {
             zadanie.start();  // Bezpośrednie uruchomienie wątku, ponieważ Zadanie jest Thread
         }
+    }
+
+
+
+    public List<Zadanie> getZadania() {
+        return zadania;
     }
 
     public String getOpis() {
