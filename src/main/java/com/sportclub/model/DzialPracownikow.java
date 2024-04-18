@@ -8,10 +8,7 @@ import java.util.Set;
 public class DzialPracownikow {
     private static final Set<String> nazwyDzialow = new HashSet<>();
     private String nazwa;
-    private Set<String> pracownicy;
-
-    public DzialPracownikow(){
-    }
+    private Set<Pracownik> pracownicy;
 
     private DzialPracownikow(String nazwa) {
         this.nazwa = nazwa;
@@ -30,11 +27,11 @@ public class DzialPracownikow {
         return nazwa;
     }
 
-    public void dodajPracownika(String nazwaPracownika) {
-        pracownicy.add(nazwaPracownika);
+    public void dodajPracownika(Pracownik pracownik) {
+        pracownicy.add(pracownik);
     }
 
-    public Set<String> getPracownicy() {
-        return new HashSet<>(pracownicy);  // Return a copy to prevent external modification
+    public Set<Pracownik> getPracownicy() {
+        return new HashSet<>(pracownicy);
     }
 }

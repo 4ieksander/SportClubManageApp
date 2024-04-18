@@ -27,6 +27,7 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
         this.nazwisko = nazwisko;
         this.dataUrodzenia = dataUrodzenia;
         this.dzial = dzial;
+        dzial.dodajPracownika(this);
         this.czyZdrowy = true; // Domyślna wartość to true
         wszyscyPracownicy.add(this);
     }
