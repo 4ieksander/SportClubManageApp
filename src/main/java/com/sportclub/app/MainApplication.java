@@ -40,8 +40,8 @@ public class MainApplication {
             itZespol.dodajPracownika(recepcjonista);
 
             // Tworzenie zadań
-            Zadanie zadanie1 = new Zadanie("Aktualizacja systemu", "Aktualizacja i deploy nowej wersji systemu.");
-            Zadanie zadanie2 = new Zadanie("Szkolenie BHP", "Prowadzenie szkolenia BHP dla nowych pracowników.");
+            Zadanie zadanie1 = new Zadanie("Aktualizacja systemu", "Aktualizacja i deploy nowej wersji systemu.", true);
+            Zadanie zadanie2 = new Zadanie("Szkolenie BHP", "Prowadzenie szkolenia BHP dla nowych pracowników.", false);
             zadanie2.setZatwierdzone(true); // Zatwierdzenie zadania do realizacji
 
             // Tworzenie pracy
