@@ -24,7 +24,7 @@ public class Zespol {
         if (!(pracownik instanceof Manager)) {
             pracownicy.add(pracownik);
             pracownik.dodajZespol(this);
-            System.out.println("Pracownik " + pracownik.getImie() + " " + pracownik.getNazwisko() + " dodany do zespołu " + nazwa);
+            System.out.println("Pracownik " + pracownik.getImieNazwisko() + " dodany do zespołu " + nazwa);
         } else {
             System.out.println("Managerowie nie mogą być dodani jako zwykli pracownicy do zespołu.");
         }

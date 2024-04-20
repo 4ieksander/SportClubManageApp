@@ -21,6 +21,7 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
     protected List<Zadanie> zadania = new ArrayList<>();
     private static final List<Pracownik> wszyscyPracownicy = new ArrayList<>();
 
+
     public Pracownik(String imie, String nazwisko, LocalDate dataUrodzenia, DzialPracownikow dzial) {
         this.id = nextId++;
         this.imie = imie;
@@ -39,7 +40,7 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
     }
 
     public void dodajZadanie(Zadanie zadanie) {
-         this.zadania.add(zadanie);
+        this.zadania.add(zadanie);
     }
 
     public void dodajZespol(Zespol zespol) {
@@ -52,16 +53,25 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
 
 
     @Override
-    public int compareTo(Pracownik o) {
-        // Przykład porównania najpierw po nazwisku, potem po imieniu
-        int lastCmp = this.nazwisko.compareTo(o.nazwisko);
-        if (lastCmp != 0) {
-            return lastCmp;
+    public int compareTo(Pracownik pracownik) {
+        int ageComparison = this.dataUrodzenia.compareTo(pracownik.dataUrodzenia);
+        if (ageComparison != 0) {
+            return ageComparison;
         }
-        return this.imie.compareTo(o.imie);
+
+        int lastNameComparison = this.nazwisko.compareTo(pracownik.nazwisko);
+        if (lastNameComparison != 0) {
+            return lastNameComparison;
+        }
+
+        // W przypadku, gdy wiek i nazwisko są takie same, zwraca 0
+        return 0;
     }
 
-
+    public String getImieNazwisko()
+    {
+        return this.imie + "" + this.nazwisko;
+    }
 
     // Gettery i settery
     public int getId() { return id; }
