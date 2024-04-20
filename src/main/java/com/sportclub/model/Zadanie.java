@@ -2,11 +2,9 @@ package com.sportclub.model;
 
 import java.time.LocalDateTime;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Zadanie extends Thread {
-    private static final AtomicInteger nextId = new AtomicInteger(1);
-    // AtomicInteger jest bezpieczniejsze od podejścia w np. Pracownik (możliwe wystąpienie wielowątkowości)
+    private static int nextId = 1;
     private final int id;
     private String nazwa;
     private String opis;
@@ -20,7 +18,7 @@ public class Zadanie extends Thread {
 
     // Konstruktory
     public Zadanie(String nazwa, String opis, boolean zatwierdzone) {
-        this.id = nextId.getAndIncrement();
+        this.id = nextId++;
         this.nazwa = nazwa;
         this.opis = opis;
         this.zatwierdzone = zatwierdzone;
