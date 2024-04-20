@@ -72,19 +72,26 @@ public class MainApplication {
         Zadanie zadanie2 = new Zadanie("Szkolenie BHP", "Prowadzenie szkolenia BHP dla nowych pracowników.", false);
         Zadanie zadanie3 = new Zadanie("Szkolenie stanowiskowe", "Prowadzenie szkolenia stanowiskowego dla nowych pracowników.", false);
 
-        zadanie2.setZatwierdzone(true);
+        out.println(manager.toString());
 
+        zadanie2.setZatwierdzone(true);
+        out.println(dzialSportu.toString());
+        out.println(zadanie1.toString());
         // Tworzenie pracy
         Praca praca = new Praca("Planowanie IT", trenerzyPersonalni);
         praca.dodajZadanie(zadanie1);
         praca.dodajZadanie(zadanie2);
         praca.dodajZadanie(zadanie3);
-        manager.getZespoly();
-        System.out.println(":)");
-        System.out.println(manager.getZadania());
-//        System.out.println(itZespol.getManager().getLogin());
-        System.out.println(manager.getZespoly());
-        System.out.println(manager.toString());
+        Thread pracaThread = new Thread(praca);
+//        pracaThread.start();
+
+        out.println(praca.toString());
+//        manager.getZespoly();
+//        System.out.println(":)");
+//        System.out.println(manager.getZadania());
+////        System.out.println(itZespol.getManager().getLogin());
+//        System.out.println(manager.getZespoly());
+//        System.out.println(manager.toString());
         // Rozpoczęcie pracy w wątku
 //            Thread pracaThread = new Thread(praca);
 //            pracaThread.start();

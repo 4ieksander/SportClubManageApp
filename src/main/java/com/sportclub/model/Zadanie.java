@@ -31,6 +31,17 @@ public class Zadanie extends Thread {
         this(nazwa, "Brak opisu", false);
     }
 
+    @Override
+    public String toString() {
+        return "Zadanie{" +
+                "nazwa='" + nazwa + '\'' +
+                ", opis='" + opis + '\'' +
+                ", stan=" + stan +
+                ", dataUtworzenia=" + dataUtworzenia +
+                ", dataZakonczenia=" + dataZakonczenia +
+                ", czasWykonania=" + czasWykonania +
+                '}';
+    }
 
     // Główna metoda
     @Override

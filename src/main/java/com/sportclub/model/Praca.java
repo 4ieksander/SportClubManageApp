@@ -16,13 +16,27 @@ public class Praca implements Runnable {
     private Zespol zespol;
     private static Map<Integer, Zadanie> mapaZadan = new HashMap<>();
 
-    // konstruktor
     public Praca(String opis, Zespol zespol) {
         this.id = nextId++;
         this.zadania = new ArrayList<>();
         this.opis = opis;
         this.zespol = zespol;
     }
+
+    @Override
+    public String toString() {
+        String listaZadan = zadania.stream()
+                .map(Zadanie::toString)
+                .collect(Collectors.joining(", "));
+
+        return "Praca{" +
+                "id=" + id +
+                ", zadania=[" + listaZadan + "]" +
+                ", opis='" + opis + '\'' +
+                ", zespol=" + zespol +
+                '}';
+    }
+
 
     /**
      * Dodaje zadanie do pracy.

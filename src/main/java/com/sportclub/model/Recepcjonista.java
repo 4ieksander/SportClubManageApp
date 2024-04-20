@@ -16,6 +16,16 @@ public class Recepcjonista extends Pracownik {
         this.initial = generateInitial(imie, nazwisko);
     }
 
+    @Override
+    public String toString() {
+        return "Recepcjonista{" +
+                this.getBasicInfo() +
+                ", login='" + login + '\'' +
+                ", haslo='" + haslo + '\'' +
+                ", initial='" + initial + '\'' +
+                '}';
+    }
+
     private String generateInitial(String imie, String nazwisko) {
         return "" + imie.charAt(0) + nazwisko.charAt(0);
     }

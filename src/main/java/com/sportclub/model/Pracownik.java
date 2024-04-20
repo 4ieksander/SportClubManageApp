@@ -17,7 +17,7 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
     private LocalDate dataUrodzenia;
     private boolean czyZdrowy;
     private DzialPracownikow dzial;
-    protected List<Zespol> zespoly = new ArrayList<>();
+    protected List<Zespol> zespoly = new ArrayList<>();         // Aby pracownik mógł
     protected List<Zadanie> zadania = new ArrayList<>();
     private static final List<Pracownik> wszyscyPracownicy = new ArrayList<>();
 
@@ -31,6 +31,20 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
         dzial.dodajPracownika(this);
         this.czyZdrowy = true; // Domyślna wartość to true
         wszyscyPracownicy.add(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Pracownik{" + this.getBasicInfo() + "}";
+    }
+
+    protected String getBasicInfo(){
+        return "id=" + id +
+                ", imie='" + imie + '\'' +
+                ", nazwisko='" + nazwisko + '\'' +
+                ", dataUrodzenia=" + dataUrodzenia +
+                ", dzial=" + dzial.getNazwa() +
+                ", czyZdrowy=" + czyZdrowy;
     }
 
     public abstract void pracuj();

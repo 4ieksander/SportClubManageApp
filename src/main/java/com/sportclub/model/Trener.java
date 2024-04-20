@@ -11,6 +11,15 @@ public class Trener extends Pracownik {
     }
 
     @Override
+    public String toString() {
+        return "Trener{" +
+                this.getBasicInfo() +
+                ", specjalizacja='" + specjalizacja + '\'' +
+                '}';
+    }
+
+
+    @Override
     public void pracuj() {
         System.out.println("Prowadzenie treningu w specjalizacji " + specjalizacja);
     }

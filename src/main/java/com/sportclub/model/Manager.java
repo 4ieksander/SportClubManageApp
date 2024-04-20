@@ -9,11 +9,16 @@ public class Manager extends Recepcjonista {
         super(imie, nazwisko, dataUrodzenia, dzial, login, haslo);
     }
 
-
     @Override
-    public List<Zespol> getZespoly() {
-        return super.getZespoly();
+    public String toString() {
+        return "Manager{" +
+                this.getBasicInfo() +
+                ", login='" + this.getLogin() + '\'' +
+                ", haslo='" + this.getHaslo() + '\'' +
+                ", zespoly=" + zespoly.stream().map(Zespol::getNazwa).toList() +
+                '}';
     }
+
 
     public List<Zadanie> getZadaniaWZespole(Zespol zespol) {
         Praca praca = zespol.getPraca();

@@ -18,6 +18,16 @@ public class DzialPracownikow {
         this.pracownicy = new HashSet<>();
     }
 
+    @Override
+    public String toString() {
+        return "DzialPracownikow{" +
+                "id=" + id +
+                ", nazwa='" + nazwa + '\'' +
+                ", pracownicy=" + pracownicy.stream().map(Pracownik::toString).toList() +
+                '}';
+    }
+
+
     public static DzialPracownikow createDzial(String nazwa) throws NotUniqueNameException {
         if (nazwyDzialow.contains(nazwa)) {
             throw new NotUniqueNameException("Nazwa działu '" + nazwa + "' jest już używana.");

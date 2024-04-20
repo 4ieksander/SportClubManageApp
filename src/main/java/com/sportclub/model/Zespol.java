@@ -2,6 +2,7 @@ package com.sportclub.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Zespol {
     private static int nextId = 1;
@@ -19,6 +20,16 @@ public class Zespol {
         this.pracownicy = new ArrayList<>();
         manager.dodajZespol(this);
     }
+
+    @Override
+    public String toString() {
+        return "Zespol{" +
+                "nazwa='" + nazwa + '\'' +
+                ", manager=" + manager.getNazwisko() +
+                ", pracownicy=" + pracownicy.stream().map(Pracownik::getNazwisko).collect(Collectors.toList()) +
+                '}';
+    }
+
 
     public void dodajPracownika(Pracownik pracownik) {
         if (!(pracownik instanceof Manager)) {
