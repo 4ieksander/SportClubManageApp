@@ -24,9 +24,10 @@ public class Zespol {
     @Override
     public String toString() {
         return "Zespol{" +
+                "id=" + id +
                 "nazwa='" + nazwa + '\'' +
                 ", manager=" + manager.getNazwisko() +
-                ", pracownicy=" + pracownicy.stream().map(Pracownik::getNazwisko).collect(Collectors.toList()) +
+                ", pracownicy=" + pracownicy.stream().map(Pracownik::getNazwisko).toList() +
                 '}';
     }
 
@@ -44,6 +45,12 @@ public class Zespol {
     public void dodajPracownika(List<Pracownik> nowiPracownicy) {
         for (Pracownik pracownik : nowiPracownicy) {
             dodajPracownika(pracownik);
+        }
+    }
+
+    public void dodajZadaniePracownikom(Zadanie zadanie) {
+        for (Pracownik pracownik : pracownicy) {
+            pracownik.dodajZadanie(zadanie);
         }
     }
 

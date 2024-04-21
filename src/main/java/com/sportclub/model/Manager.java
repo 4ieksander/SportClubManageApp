@@ -25,20 +25,23 @@ public class Manager extends Recepcjonista {
         List<Zadanie> zadaniaWZespole = praca.getZadania();
         System.out.println("Zadania w zespole "+ zespol.getNazwa() + ":");
         for (Zadanie zadanie : zadaniaWZespole){
-            System.out.println(zadanie);
+            System.out.println("\t" + zadanie);
         }
         return zadaniaWZespole;
     }
 
-    // Metoda do zwracania listy zespołów dla danego zadania
-    public List<Zespol> getZespolyZadania(Zadanie zadanie) {
-        List<Zespol> zespolyZadania = new ArrayList<>();
+    public List<Zespol> getZespoly() {
         for (Zespol zespol : zespoly) {
-            if (zespol.getPracownicy().contains(this) && zadania.contains(zadanie)) {
-                zespolyZadania.add(zespol);
-            }
+            System.out.println("\t" + zespol.getNazwa());
+    }
+        return zespoly;
+    }
+
+    public void pokazZespolyIZadaniaDoNich(){
+        List<Zespol> zespoly = this.getZespoly();
+        for (Zespol zespol : zespoly){
+            getZadaniaWZespole(zespol);
         }
-        return zespolyZadania;
     }
 
     @Override

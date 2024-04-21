@@ -20,7 +20,9 @@ public class Praca implements Runnable {
         this.id = nextId++;
         this.zadania = new ArrayList<>();
         this.opis = opis;
+        zespol.ustawPrace(this);
         this.zespol = zespol;
+
     }
 
     @Override
@@ -45,6 +47,7 @@ public class Praca implements Runnable {
     public void dodajZadanie(Zadanie zadanie) {
         Manager manager = zespol.getManager();
         manager.dodajZadanie(zadanie);
+        zespol.dodajZadaniePracownikom(zadanie);
         zadania.add(zadanie);
         mapaZadan.put(zadanie.getZadanieId(), zadanie); // metoda getId() jest zajęta (wbudowana)
     }
@@ -67,24 +70,18 @@ public class Praca implements Runnable {
             System.out.println("Brak zadań do wykonania.");
             return;
         }
-
-        /// Nie zatwierdzone zadania
-        List<Zadanie> niezatwierdzoneZadania = zadania.stream()
-                .filter(zadanie -> !zadanie.isZatwierdzone())
-                .collect(Collectors.toList());
-
-        if (!niezatwierdzoneZadania.isEmpty()) {
-            System.out.println("Niezatwierdzone zadania:");
-            for (Zadanie zadanie : niezatwierdzoneZadania) {
-                System.out.println(zadanie.getNazwa());
-            }
+        if (czyKtosJestChory() || !zespol.getManager().getCzyZdrowy()){
+            System.out.println("Ktoś jest chory w zespole " + zespol.getNazwa() + ", nie można zacząć pracy.");
+            return;
         }
+
+        wyswietlNiezatwierdzoneZadania();
 
         /// Zatwierdzone zadania
         System.out.println("Rozpoczęcie pracy: " + opis);
         List<Zadanie> doWykonania = zadania.stream()
                 .filter(Zadanie::isZatwierdzone)
-                .collect(Collectors.toList());
+                .toList();
 
         if (doWykonania.isEmpty()) {
             System.out.println("Brak zatwierdzonych zadań do wykonania.");
@@ -92,10 +89,31 @@ public class Praca implements Runnable {
         }
 
         for (Zadanie zadanie : doWykonania) {
-            zadanie.start();  // Bezpośrednie uruchomienie wątku, ponieważ Zadanie jest Thread
+            zadanie.start();
+            try {
+                zadanie.join(); // Czeka na zakończenie wątku thread
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
+    private boolean czyKtosJestChory() {
+        return zespol.getPracownicy().stream()  // Pobiera strumień pracowników zespołu
+                .anyMatch(pracownik -> pracownik.getCzyZdrowy() == false);  // Sprawdza, czy którykolwiek pracownik jest chory
+    }
 
+    private void wyswietlNiezatwierdzoneZadania(){
+        List<Zadanie> niezatwierdzoneZadania = zadania.stream()
+                .filter(zadanie -> !zadanie.isZatwierdzone())
+                .collect(Collectors.toList());
+
+        if (!niezatwierdzoneZadania.isEmpty()) {
+            System.out.println("Niezatwierdzone zadania:");
+            for (Zadanie zadanie : niezatwierdzoneZadania) {
+                System.out.println(zadanie.getZadanieId() + ". " + zadanie.getNazwa());
+            }
+        }
+    }
 
 
     public List<Zadanie> getZadania() {

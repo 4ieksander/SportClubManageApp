@@ -47,15 +47,29 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
                 ", czyZdrowy=" + czyZdrowy;
     }
 
+    public static void wyswietlZadaniaPracownikow(){
+        for (Pracownik pracownik : wszyscyPracownicy){
+            System.out.println(pracownik.getId() + " " + pracownik.getImieNazwisko() + ": ");
+            if (pracownik.zadania.isEmpty()) {
+                System.out.println("\tBrak zadań.");
+            }
+            else{
+                System.out.println(pracownik.zadania + "not empt");
+            }
+            for (Zadanie zadanie : pracownik.zadania){
+                System.out.println("\t" + zadanie);
+            }
+        }
+    }
+
+
     public abstract void pracuj();
 
-    public List<Zadanie> getZadania() {
-        return new ArrayList<>(zadania);
-    }
 
-    public void dodajZadanie(Zadanie zadanie) {
+    public void dodajZadanie(Zadanie zadanie) {     // nie ma getZadania, tylko w klasie Manager
         this.zadania.add(zadanie);
     }
+
 
     public void dodajZespol(Zespol zespol) {
         zespoly.add(zespol);
@@ -84,7 +98,7 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
 
     public String getImieNazwisko()
     {
-        return this.imie + "" + this.nazwisko;
+        return this.imie + " " + this.nazwisko;
     }
 
     // Gettery i settery
@@ -94,7 +108,7 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
     public String getNazwisko() { return nazwisko; }
     public void setNazwisko(String nazwisko) { this.nazwisko = nazwisko; }
     public LocalDate getDataUrodzenia() { return dataUrodzenia; }
-    public boolean isCzyZdrowy() { return czyZdrowy; }
+    public boolean getCzyZdrowy() { return czyZdrowy; }
     public void setCzyZdrowy(boolean czyZdrowy) { this.czyZdrowy = czyZdrowy; }
     public DzialPracownikow getDzial() { return dzial; }
     public void setDzial(DzialPracownikow dzial) { this.dzial = dzial; }
