@@ -12,12 +12,14 @@ import static java.lang.System.out;     // zeby nie trzeba było ciagle pisac Sy
 public class MainApplication {
 
     public static void main(String[] args) {
-        DzialPracownikow dzialHR = null;
+        DzialPracownikow dzialObslugi = null;
+        DzialPracownikow dzialManagerski = null;
         DzialPracownikow dzialSportu = null;
         DzialPracownikow dzialWyjatku = null;
 
         try {
-            dzialHR = DzialPracownikow.createDzial("HR");
+            dzialManagerski = DzialPracownikow.createDzial("Managerowie");
+            dzialObslugi = DzialPracownikow.createDzial("Obsluga");
             dzialSportu = DzialPracownikow.createDzial("Sport");
             dzialWyjatku = DzialPracownikow.createDzial("Sport");
         } catch (NotUniqueNameException e1) {
@@ -25,83 +27,136 @@ public class MainApplication {
 
 
 
-        Manager manager = new Manager("Jakub", "Sikora", LocalDate.of(1988, 4, 4), dzialHR, "jam.n", "123");
-        Recepcjonista recepcjonista1 = new Recepcjonista("Anna", "Kowalska", LocalDate.of(1985, 5, 5), dzialHR, "anna.k", "password123");
-        Recepcjonista recepcjonista2 = new Recepcjonista("Barbara", "Popularna", LocalDate.of(1983, 1, 2), dzialHR, "anna.k", "password123");
+        Manager manager_silowni = new Manager("Jakub", "Sikora", LocalDate.of(1988, 4, 4), dzialManagerski, "jakub.s", "12345");
+        Manager manager_boiska = new Manager("Jacek", "Biały", LocalDate.of(1975, 3, 2), dzialManagerski, "jacek.b", "123123");
+        Recepcjonista recepcjonista1 = new Recepcjonista("Anna", "Kowalska", LocalDate.of(1985, 5, 5), dzialObslugi, "anna.k", "password123");
+        Recepcjonista recepcjonista2 = new Recepcjonista("Barbara", "Popularna", LocalDate.of(1983, 1, 2), dzialObslugi, "barbara.p", "password123");
         Trener trener1 = new Trener("Lukasz", "Budnik", LocalDate.of(2000, 5, 30), dzialSportu, "CrossFit");
         Trener trener2 = new Trener("Darek", "Kowalski", LocalDate.of(1990, 2, 15), dzialSportu, "Trener personalny");
         Trener trener3 = new Trener("Mariusz", "Kowalski", LocalDate.of(1990, 2, 15), dzialSportu, "Boks");
         Trener trener4 = new Trener("Patryk", "Kolanko", LocalDate.of(1990, 2, 15), dzialSportu, "Trener personalny");
+        Trener trener5 = new Trener("Waldemar", "Polak", LocalDate.of(1998, 4,6), dzialSportu, "Trener piłki nożnej");
+        Trener trener6 = new Trener("Waldemar", "August", LocalDate.of(1991, 2,8), dzialSportu, "Trener piłki ręcznej");
 
 
         // Tworzenie zespołów
-        out.println("\nZespol trenerow personalnych");
-        Zespol trenerzyPersonalni = new Zespol("Trenerzy personalni", manager);
-        trenerzyPersonalni.dodajPracownika(trener2);    // dodanie 1 pracownika
-        trenerzyPersonalni.dodajPracownika(trener4);
+        out.println("\nZespol trenerow piłki");
+        Zespol trenerzyDruzynowi = new Zespol("Trenerzy sportów drużynowych ", manager_boiska);
+        trenerzyDruzynowi.dodajPracownika(trener5);    // dodanie 1 pracownika
+        trenerzyDruzynowi.dodajPracownika(trener6);
 
-        Set<Pracownik> pracownicyZDzialuSport = dzialSportu.getPracownicy(); // metoda aby uzyskać informację jacy pracownicy są w dziale
 
-        out.println("\nDodawanie listy pracownikow");
-        List<Pracownik> pracownicySilowni = new ArrayList<>();
-        pracownicySilowni.addAll(pracownicyZDzialuSport);    // dodanie listy pracowników
+        out.println("\nDodawanie listy pracownikow silowni");
+        List<Pracownik> personelSilowniList = new ArrayList<>();
+        personelSilowniList.add(trener1);
+        personelSilowniList.add(trener2);
+        personelSilowniList.add(trener3);
+        personelSilowniList.add(trener4);
+        Zespol personelSilowni = new Zespol("Personel silowni", manager_silowni);
+        personelSilowni.dodajPracownika(personelSilowniList);         // dodanie pracownikow do zespolu poprzez liste
 
-        Zespol personelSilowni = new Zespol("Personel silowni", manager);
-        personelSilowni.dodajPracownika(pracownicySilowni);         // dodanie pracownikow do zespolu poprzez liste
 
         out.println("\nZespol reecepcjonistek");
-        List<Pracownik> recepcjonistki = new ArrayList<>();
-        recepcjonistki.add(recepcjonista1);
-        recepcjonistki.add(recepcjonista2);
-        Zespol recepcja = new Zespol("Recepcja", manager);
-        recepcja.dodajPracownika(recepcjonistki);   // dodanie pracownikow do zespolu poprzez liste
-
-        out.println("\ncompareTo");
-        out.println(trener1.compareTo(trener3));
-        out.println(trener2.compareTo(trener3));
-
-        out.println("\nZmiana ID");
-        out.println(recepcjonista1.getImieNazwisko());
-        out.println(recepcjonista1.getInitial());
-        recepcjonista1.setImie("Monika");
-        out.println(recepcjonista1.getInitial());
+        Zespol recepcja = new Zespol("Recepcja", manager_silowni);
+        Set<Pracownik> personelObslugiSet = dzialObslugi.getPracownicy(); // metoda aby uzyskać informację jacy pracownicy są w dziale
+        List<Pracownik> personelObslugiList = new ArrayList<>();
+        personelObslugiList.addAll(personelObslugiSet);    // dodanie listy pracowników z seta do listy
+        recepcja.dodajPracownika(personelObslugiList);   // dodanie pracownikow do zespolu poprzez liste
 
 
-        // Tworzenie zadań
-        Zadanie zadanie1 = new Zadanie("Aktualizacja systemu", "Aktualizacja i deploy nowej wersji systemu.", true);
-        Zadanie zadanie2 = new Zadanie("Szkolenie BHP", "Prowadzenie szkolenia BHP dla nowych pracowników.", false);
-        Zadanie zadanie3 = new Zadanie("Szkolenie stanowiskowe", "Prowadzenie szkolenia stanowiskowego dla nowych pracowników.", false);
+        Praca obsluga = new Praca("Obsluga", recepcja);
+        Praca silownia = new Praca("Silownia", personelSilowni);
+        Praca boisko = new Praca("Boisko", trenerzyDruzynowi);
 
-        out.println(manager.toString());
-
+        out.println("\n\nTworzenie zadań");
+        Zadanie zadanie1 = new Zadanie("Logowanie", "Zaloguj sie do komputera", true);
+        Zadanie zadanie2 = new Zadanie("Przyjmuj klientów", "Na silowni.", false);
+        Zadanie zadanie3 = new Zadanie("Sprawdz skrzynke email", ".", false);
+        Zadanie zadanie4 = new Zadanie("Posprzątanie silowni", "Jak w tytule", true);
+        Zadanie zadanie5 = new Zadanie("Trening personalny 1", "", false);
+        Zadanie zadanie6= new Zadanie("Trening personalny 2", "Jak w tytule", false);
+        Zadanie zadanie7 = new Zadanie("Sparring", "", true);
+        Zadanie zadanie8 = new Zadanie("Mecz", "Jak w tytule", false);
         zadanie2.setZatwierdzone(true);
-        out.println(dzialSportu.toString());
-        out.println(zadanie1.toString());
-        // Tworzenie pracy
-        Praca praca = new Praca("Planowanie IT", trenerzyPersonalni);
-        praca.dodajZadanie(zadanie1);
-        praca.dodajZadanie(zadanie2);
-        praca.dodajZadanie(zadanie3);
-        Thread pracaThread = new Thread(praca);
-//        pracaThread.start();
 
-        out.println(praca.toString());
-//        manager.getZespoly();
-//        System.out.println(":)");
-//        System.out.println(manager.getZadania());
-////        System.out.println(itZespol.getManager().getLogin());
-//        System.out.println(manager.getZespoly());
-//        System.out.println(manager.toString());
-        // Rozpoczęcie pracy w wątku
-//            Thread pracaThread = new Thread(praca);
-//            pracaThread.start();
-//
-//            try {
-//                pracaThread.join(); // Czekanie na zakończenie pracy
-//            } catch (InterruptedException e2) {
-//                System.out.println("Wykonanie pracy zostało przerwane.");
-//                Thread.currentThread().interrupt();
-//            }
+        obsluga.dodajZadanie(zadanie1);
+        obsluga.dodajZadanie(zadanie2);
+        obsluga.dodajZadanie(zadanie3);
+        silownia.dodajZadanie(zadanie4);
+        silownia.dodajZadanie(zadanie5);
+        silownia.dodajZadanie(zadanie6);
+        boisko.dodajZadanie(zadanie7);
+        boisko.dodajZadanie(zadanie8);
+
+
+        Thread obslugaThread = new Thread(obsluga);
+        Thread silowniaThread = new Thread(silownia);
+        Thread boiskoThread = new Thread(boisko);
+
+        trener2.setCzyZdrowy(false);
+        manager_boiska.setCzyZdrowy(false);
+
+        out.println("\n\nStartuje wątki pracy...");
+        silowniaThread.start();
+
+        try{
+            Thread.sleep(300);
+            obslugaThread.start();
+            obslugaThread.join();
+            out.println("Status zadania logowanie:");
+            out.println(Praca.getZadaniePoId(2));
+            boiskoThread.start();
+            boiskoThread.join();
+
+            out.println("\nUstawianie czyZdrowy = True");
+            manager_boiska.setCzyZdrowy(true);
+            boiskoThread = new Thread(boisko);
+            boiskoThread.start();
+            Thread.sleep(1000);
+            out.println("\nManager boiska - zadania i zespoły (jedno zadanie rozpoczęte):");
+            manager_boiska.pokazZespolyIZadaniaDoNich();
+            boiskoThread.join();
+
+            out.println("\n\n\nMetody toString()");
+            out.println(obsluga.toString());
+            out.println(dzialSportu.toString());
+            out.println(zadanie1.toString());
+            out.println(manager_silowni.toString());
+
+            out.println("\ncompareTo");
+            out.println(trener1.compareTo(trener3));
+            out.println(trener2.compareTo(trener3));
+
+            out.println("\nZmiana ID");
+            out.println(recepcjonista1.getImieNazwisko());
+            out.println(recepcjonista1.getInitial());
+            recepcjonista1.setImie("Monika");
+            out.println(recepcjonista1.getInitial());
+
+
+            out.println("\nZadania w zespołach managera:");
+            manager_silowni.pokazZespolyIZadaniaDoNich();
+
+            out.println("\nPracownicy dzialu menadżerów:");
+            for (Pracownik pracownik : dzialManagerski.getPracownicy()){
+                out.println(pracownik.getImieNazwisko());
+            };
+
+            out.println("\nZadanie po ID");
+            out.println(Praca.getZadaniePoId(2));
+
+            out.println("\nDodatkowa metoda recepcjonisty:");
+            recepcjonista1.checkInGuest("Bartłomiej");
+
+            out.println("\nManager boiska - zadania i zespoły:");
+            manager_boiska.pokazZespolyIZadaniaDoNich();
+        }
+        catch(InterruptedException e){
+            System.out.println("Zadanie zostało przerwane");
+            Thread.currentThread().interrupt();}
+
+
+
 
 
         }

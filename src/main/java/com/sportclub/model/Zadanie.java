@@ -34,6 +34,7 @@ public class Zadanie extends Thread {
     @Override
     public String toString() {
         return "Zadanie{" +
+                "id= " + id + ", " +
                 "nazwa='" + nazwa + '\'' +
                 ", opis='" + opis + '\'' +
                 ", stan=" + stan +
