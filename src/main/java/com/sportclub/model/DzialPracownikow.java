@@ -1,6 +1,5 @@
 package com.sportclub.model;
 import com.sportclub.exception.NotUniqueNameException;
-import com.sportclub.model.DzialPracownikow;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -36,10 +35,6 @@ public class DzialPracownikow {
         return new DzialPracownikow(nazwa);
     }
 
-    public String getNazwa() {
-        return nazwa;
-    }
-
     public void dodajPracownika(Pracownik pracownik) {
         pracownicy.add(pracownik);
     }
@@ -47,4 +42,14 @@ public class DzialPracownikow {
     public Set<Pracownik> getPracownicy() {
         return new HashSet<>(pracownicy);
     }
+
+    public String getNazwa() {
+        return nazwa;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+
 }

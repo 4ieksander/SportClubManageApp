@@ -2,14 +2,18 @@ package com.sportclub.model;
 
 import com.sportclub.util.IDobryPracownik;
 
+import java.io.Serializable;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
-
-public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracownik {
+public abstract class Pracownik implements Serializable, Comparable<Pracownik>, IDobryPracownik {
+    private static final long serialVersionUID = 1L;
     private static int nextId = 1;
     private final int id;
     private String imie;
@@ -17,10 +21,9 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
     private LocalDate dataUrodzenia;
     private boolean czyZdrowy;
     private DzialPracownikow dzial;
-    protected List<Zespol> zespoly = new ArrayList<>();         // Aby pracownik mógł
+    protected List<Zespol> zespoly = new ArrayList<>();
     protected List<Zadanie> zadania = new ArrayList<>();
     private static final List<Pracownik> wszyscyPracownicy = new ArrayList<>();
-
 
     public Pracownik(String imie, String nazwisko, LocalDate dataUrodzenia, DzialPracownikow dzial) {
         this.id = nextId++;
@@ -62,24 +65,6 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
         }
     }
 
-
-    public abstract void pracuj();
-
-
-    public void dodajZadanie(Zadanie zadanie) {     // nie ma getZadania, tylko w klasie Manager
-        this.zadania.add(zadanie);
-    }
-
-
-    public void dodajZespol(Zespol zespol) {
-        zespoly.add(zespol);
-    }
-
-    public List<Zespol> getZespoly() {
-        return new ArrayList<>(zespoly);
-    }
-
-
     @Override
     public int compareTo(Pracownik pracownik) {
         int ageComparison = this.dataUrodzenia.compareTo(pracownik.dataUrodzenia);
@@ -91,14 +76,31 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
         if (lastNameComparison != 0) {
             return lastNameComparison;
         }
-
-        // W przypadku, gdy wiek i nazwisko są takie same, zwraca 0
         return 0;
     }
 
-    public String getImieNazwisko()
-    {
+    public abstract void pracuj();
+
+    public void dodajZadanie(Zadanie zadanie) {
+        this.zadania.add(zadanie);
+    }
+
+    public void dodajZespol(Zespol zespol) {
+        zespoly.add(zespol);
+    }
+
+
+    public List<Zespol> getZespoly() {
+        return new ArrayList<>(zespoly);
+    }
+
+
+    public String getImieNazwisko() {
         return this.imie + " " + this.nazwisko;
+    }
+
+    public static List<Pracownik> getWszyscyPracownicy() {
+        return new ArrayList<>(wszyscyPracownicy);
     }
 
     // Gettery i settery
@@ -112,8 +114,4 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
     public void setCzyZdrowy(boolean czyZdrowy) { this.czyZdrowy = czyZdrowy; }
     public DzialPracownikow getDzial() { return dzial; }
     public void setDzial(DzialPracownikow dzial) { this.dzial = dzial; }
-
-    public static List<Pracownik> getWszyscyPracownicy() {
-        return new ArrayList<>(wszyscyPracownicy);
-    }
 }

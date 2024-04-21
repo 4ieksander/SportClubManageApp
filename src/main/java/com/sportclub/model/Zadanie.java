@@ -74,7 +74,7 @@ public class Zadanie extends Thread {
 
     // gettery i settery
 
-    public int getZadanieId() { // getId() jest zajęte przez wbudowaną metodę zwracającą rzeczywiste id
+    public int getZadanieId() { // getId() jest zajęte przez Thread zwracającą rzeczywiste id
         return this.id;
     }
 
@@ -104,6 +104,10 @@ public class Zadanie extends Thread {
 
     public void setZatwierdzone(boolean zatwierdzone) {
         this.zatwierdzone = zatwierdzone;
+    }
+
+    public long getCzasWykonania() {
+        return czasWykonania;
     }
 
     public LocalDateTime getDataUtworzenia() {

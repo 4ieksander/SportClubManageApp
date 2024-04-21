@@ -2,7 +2,7 @@ package com.sportclub.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class Zespol {
     private static int nextId = 1;
