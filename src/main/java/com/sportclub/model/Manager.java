@@ -5,8 +5,10 @@ import java.util.List;
 
 public class Manager extends Recepcjonista {
     public Manager(String imie, String nazwisko, LocalDate dataUrodzenia, DzialPracownikow dzial, String login, String haslo) {
-        super(imie, nazwisko, dataUrodzenia, dzial, login, haslo);
+        super(imie, nazwisko, dataUrodzenia, dzial, login, haslo);      // super -> klasa po której się dziedziczy (recepcjonista)
     }
+
+    // brak dodatkowego konstruktora i getterow / setterow bo wszystko co ma, to dziedziczy.
 
     @Override
     public String toString() {
@@ -20,8 +22,8 @@ public class Manager extends Recepcjonista {
 
 
     public List<Zadanie> getZadaniaWZespole(Zespol zespol) {
-        Praca praca = zespol.getPraca();
-        List<Zadanie> zadaniaWZespole = praca.getZadania();
+        Praca praca = zespol.getPraca();            // zespol nie ma w swoich zmiennych zadan, dlatego dostaje sie najpierw do pracy...
+        List<Zadanie> zadaniaWZespole = praca.getZadania();     // a pozniej do zadania
         System.out.println("Zadania w zespole "+ zespol.getNazwa() + ":");
         for (Zadanie zadanie : zadaniaWZespole){
             System.out.println("\t" + zadanie);

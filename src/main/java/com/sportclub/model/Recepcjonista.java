@@ -36,13 +36,6 @@ public class Recepcjonista extends Pracownik {
     }
 
 
-    // Gettery i settery
-    public String getLogin() { return login; }
-    public void setLogin(String login) { this.login = login; }
-    public String getHaslo() { return haslo; }
-    public void setHaslo(String haslo) { this.haslo = haslo; }
-    public String getInitial() { return initial; }
-
 
 
     // Obsługa zmiany imienia lub nazwiska z aktualizacją inicjałów
@@ -77,4 +70,14 @@ public class Recepcjonista extends Pracownik {
     public void rozwijajUmiejętności() {
         System.out.println("Uczestnictwo w szkoleniach z obsługi klienta.");
     }
+
+    // Gettery i settery
+    public String getLogin() { return login; }
+    public void setLogin(String login) { this.login = login; }
+    public String getHaslo() { return haslo; }
+    public void setHaslo(String haslo) { this.haslo = haslo; }
+    public String getInitial() { return initial; }
+
+
 }
+

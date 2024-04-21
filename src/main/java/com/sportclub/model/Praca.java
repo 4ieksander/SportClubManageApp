@@ -8,19 +8,19 @@ import java.util.stream.Collectors;
 
 
 
-public class Praca implements Runnable {
+public class Praca implements Runnable {        // poczytaj troche runnable
     private static int nextId = 1;
     private final int id;
     private List<Zadanie> zadania;
     private String opis;
     private Zespol zespol;
-    private static Map<Integer, Zadanie> mapaZadan = new HashMap<>();
+    private static Map<Integer, Zadanie> mapaZadan = new HashMap<>();       // map -> coś jak dziennik w pythonie
 
     public Praca(String opis, Zespol zespol) {
         this.id = nextId++;
         this.zadania = new ArrayList<>();
         this.opis = opis;
-        zespol.ustawPrace(this);
+        zespol.ustawPrace(this);        //u stawia tą pracę danemu zespołowi jako zmienną
         this.zespol = zespol;
 
     }
@@ -39,30 +39,22 @@ public class Praca implements Runnable {
                 '}';
     }
 
-
-    /**
-     * Dodaje zadanie do pracy.
-     * @param zadanie Zadanie do dodania.
-     */
-    public void dodajZadanie(Zadanie zadanie) {
-        Manager manager = zespol.getManager();
-        manager.dodajZadanie(zadanie);
-        zespol.dodajZadaniePracownikom(zadanie);
-        zadania.add(zadanie);
-        mapaZadan.put(zadanie.getZadanieId(), zadanie); // metoda getId() jest zajęta (wbudowana)
-    }
-
-    /**
-     * Staticzna metoda do pozyskiwania zadania na podstawie jego ID.
-     * @param id Identyfikator zadania.
-     * @return Zadanie o danym ID lub null, jeśli nie znaleziono.
-     */
     public static Zadanie getZadaniePoId(int id) {
         return mapaZadan.get(id);
     }
 
+
+    public void dodajZadanie(Zadanie zadanie) {
+        Manager manager = zespol.getManager();      // bierze managera tego zespolu
+        manager.dodajZadanie(zadanie);              // i dodaje mu do zmiennej zadania (ta sama co mają pracownicy) to zadanie
+        zespol.dodajZadaniePracownikom(zadanie);    // --||--
+        zadania.add(zadanie);                       // lista zadań w TEJ pracy
+        mapaZadan.put(zadanie.getZadanieId(), zadanie); // metoda "getId()" jest zajęta przez threading
+    }
+
+
     /**
-     * Metoda wykonująca wszystkie zadania związane z pracą.
+     // Metoda wykonująca wszystkie zadania związane z pracą.
      */
     @Override
     public void run() {
@@ -70,25 +62,14 @@ public class Praca implements Runnable {
             System.out.println("Brak zadań do wykonania.");
             return;
         }
-        if (czyKtosJestChory() || !zespol.getManager().getCzyZdrowy()){
+        if (czyKtosJestChory() || !zespol.getManager().getCzyZdrowy()){    // " ! " -> inwersja  " || "" -> OR ( && -> AND )
             System.out.println("Ktoś jest chory w zespole " + zespol.getNazwa() + ", nie można zacząć pracy.");
             return;
         }
-
-        wyswietlNiezatwierdzoneZadania();
-
         /// Zatwierdzone zadania
         System.out.println("Rozpoczęcie pracy: " + opis);
-        List<Zadanie> doWykonania = zadania.stream()
-                .filter(Zadanie::isZatwierdzone)
-                .toList();
 
-        if (doWykonania.isEmpty()) {
-            System.out.println("Brak zatwierdzonych zadań do wykonania.");
-            return;
-        }
-
-        for (Zadanie zadanie : doWykonania) {
+        for (Zadanie zadanie : zadania) {
             zadanie.start();
             try {
                 zadanie.join(); // Czeka na zakończenie wątku thread
@@ -97,22 +78,9 @@ public class Praca implements Runnable {
             }
         }
     }
-    private boolean czyKtosJestChory() {
+    private boolean czyKtosJestChory() {        // funkcja zeby bylo czysciej
         return zespol.getPracownicy().stream()  // Pobiera strumień pracowników zespołu
-                .anyMatch(pracownik -> pracownik.getCzyZdrowy() == false);  // Sprawdza, czy którykolwiek pracownik jest chory
-    }
-
-    private void wyswietlNiezatwierdzoneZadania(){
-        List<Zadanie> niezatwierdzoneZadania = zadania.stream()
-                .filter(zadanie -> !zadanie.isZatwierdzone())
-                .collect(Collectors.toList());
-
-        if (!niezatwierdzoneZadania.isEmpty()) {
-            System.out.println("Niezatwierdzone zadania:");
-            for (Zadanie zadanie : niezatwierdzoneZadania) {
-                System.out.println(zadanie.getZadanieId() + ". " + zadanie.getNazwa());
-            }
-        }
+                .anyMatch(pracownik -> !pracownik.getCzyZdrowy());  // Sprawdza, czy którykolwiek pracownik jest chory
     }
 
 
