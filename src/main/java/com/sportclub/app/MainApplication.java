@@ -97,6 +97,9 @@ public class MainApplication {
         trener2.setCzyZdrowy(false);
         manager_boiska.setCzyZdrowy(false);
 
+//        Pracownik.wyswietlZadaniaPracownikow();
+
+
         out.println("\n\nStartuje wątki pracy...");
         silowniaThread.start();
 

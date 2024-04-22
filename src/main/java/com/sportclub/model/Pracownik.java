@@ -64,6 +64,10 @@ public abstract class Pracownik implements Comparable<Pracownik>, IDobryPracowni
         this.zadania.add(zadanie);
     }
 
+    public List<Zadanie> getZadania() {
+        return new ArrayList<>(zadania);
+    }
+    
     public void dodajZespol(Zespol zespol) {        // wywolywane w dodawaniu do zespolu
         zespoly.add(zespol);
     }
