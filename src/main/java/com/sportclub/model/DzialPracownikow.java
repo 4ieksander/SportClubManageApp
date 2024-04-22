@@ -23,7 +23,7 @@ public class DzialPracownikow {
 
     public static DzialPracownikow createDzial(String nazwa) throws NotUniqueNameException {
         if (nazwyDzialow.contains(nazwa)) {
-            throw new NotUniqueNameException("Nazwa działu '" + nazwa + "' jest już używana.");
+            throw new NotUniqueNameException(nazwa);
         }
         nazwyDzialow.add(nazwa);
         return new DzialPracownikow(nazwa);
@@ -32,6 +32,7 @@ public class DzialPracownikow {
     public void dodajPracownika(Pracownik pracownik) {
         pracownicy.add(pracownik);
     }
+
 
     @Override
     public String toString() {

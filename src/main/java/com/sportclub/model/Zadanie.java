@@ -49,6 +49,7 @@ public class Zadanie extends Thread {
                     System.out.println("Zadanie '" + nazwa + "' - pozostały czas: " + (czasWykonania - i) + "s...");
                 }
             } catch (InterruptedException e) {
+                this.stan = Stan.Utworzone;
                 System.out.println("Zadanie zostało przerwane");
                 Thread.currentThread().interrupt();
             }

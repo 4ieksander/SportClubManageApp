@@ -73,11 +73,12 @@ public class MainApplication {
         Zadanie zadanie2 = new Zadanie("Przyjmuj klientów", "Na silowni.", false);
         Zadanie zadanie3 = new Zadanie("Sprawdz skrzynke email", ".", false);
         Zadanie zadanie4 = new Zadanie("Posprzątanie silowni", "Jak w tytule", true);
-        Zadanie zadanie5 = new Zadanie("Trening personalny 1", "", false);
-        Zadanie zadanie6= new Zadanie("Trening personalny 2", "Jak w tytule", false);
-        Zadanie zadanie7 = new Zadanie("Sparring", "", true);
+        Zadanie zadanie5 = new Zadanie("Trening personalny 1");
+        Zadanie zadanie6= new Zadanie("Trening personalny 2");
+        Zadanie zadanie7 = new Zadanie("Sparring");
         Zadanie zadanie8 = new Zadanie("Mecz", "Jak w tytule", false);
         zadanie2.setZatwierdzone(true);
+        out.println("\n"+zadanie7.getOpis());
 
         obsluga.dodajZadanie(zadanie1);
         obsluga.dodajZadanie(zadanie2);
