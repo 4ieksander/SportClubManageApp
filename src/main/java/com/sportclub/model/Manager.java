@@ -6,20 +6,16 @@ import java.util.List;
 public class Manager extends Recepcjonista {
     public Manager(String imie, String nazwisko, LocalDate dataUrodzenia, DzialPracownikow dzial, String login, String haslo) {
         super(imie, nazwisko, dataUrodzenia, dzial, login, haslo);      // super -> klasa po której się dziedziczy (recepcjonista)
+    }   // brak dodatkowego konstruktora i getterow / setterow bo wszystko co ma, to dziedziczy.
+
+
+    // metody publiczne
+    public void pokazZespolyIZadaniaDoNich(){
+        List<Zespol> zespoly = this.getZespoly();
+        for (Zespol zespol : zespoly){
+            getZadaniaWZespole(zespol);
+        }
     }
-
-    // brak dodatkowego konstruktora i getterow / setterow bo wszystko co ma, to dziedziczy.
-
-    @Override
-    public String toString() {
-        return "Manager{" +
-                this.getBasicInfo() +
-                ", login='" + this.getLogin() + '\'' +
-                ", haslo='" + this.getHaslo() + '\'' +
-                ", zespoly=" + zespoly.stream().map(Zespol::getNazwa).toList() +
-                '}';
-    }
-
 
     public List<Zadanie> getZadaniaWZespole(Zespol zespol) {
         Praca praca = zespol.getPraca();            // zespol nie ma w swoich zmiennych zadan, dlatego dostaje sie najpierw do pracy...
@@ -36,13 +32,6 @@ public class Manager extends Recepcjonista {
             System.out.println("\t" + zespol.getNazwa());
     }
         return zespoly;
-    }
-
-    public void pokazZespolyIZadaniaDoNich(){
-        List<Zespol> zespoly = this.getZespoly();
-        for (Zespol zespol : zespoly){
-            getZadaniaWZespole(zespol);
-        }
     }
 
     @Override
@@ -63,5 +52,15 @@ public class Manager extends Recepcjonista {
     @Override
     public void rozwijajUmiejętności() {
         System.out.println("Rozwój umiejętności lidera i menedżera.");
+    }
+
+    @Override
+    public String toString() {
+        return "Manager{" +
+                this.getBasicInfo() +
+                ", login='" + this.getLogin() + '\'' +
+                ", haslo='" + this.getHaslo() + '\'' +
+                ", zespoly=" + zespoly.stream().map(Zespol::getNazwa).toList() +
+                '}';
     }
 }

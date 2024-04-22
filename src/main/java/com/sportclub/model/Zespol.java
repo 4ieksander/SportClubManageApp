@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Zespol {
     private static int nextId = 1;
+
     private final int id;
     private String nazwa;
     private Manager manager;
@@ -21,16 +22,6 @@ public class Zespol {
         manager.dodajZespol(this);
     }
 
-    @Override
-    public String toString() {
-        return "Zespol{" +
-                "id=" + id +
-                "nazwa='" + nazwa + '\'' +
-                ", manager=" + manager.getNazwisko() +
-                ", pracownicy=" + pracownicy.stream().map(Pracownik::getNazwisko).toList() +
-                '}';
-    }
-
 
     public void dodajPracownika(Pracownik pracownik) {
         if (!(pracownik instanceof Manager)) {
@@ -42,7 +33,7 @@ public class Zespol {
         }
     }
 
-    public void dodajPracownika(List<Pracownik> nowiPracownicy) {
+    public void dodajPracownika(List<Pracownik> nowiPracownicy) {       // ta sama nazwa, wywolanie konkretnej metody jest zalezne od tego co przekazemy
         for (Pracownik pracownik : nowiPracownicy) {
             dodajPracownika(pracownik);
         }
@@ -54,6 +45,18 @@ public class Zespol {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Zespol{" +
+                "id=" + id +
+                "nazwa='" + nazwa + '\'' +
+                ", manager=" + manager.getNazwisko() +
+                ", pracownicy=" + pracownicy.stream().map(Pracownik::getNazwisko).toList() +
+                '}';
+    }
+
+
+    //gettery i setteru
     public void ustawPrace(Praca praca){
         this.praca = praca;
     }
@@ -72,5 +75,4 @@ public class Zespol {
 
     public List<Pracownik> getPracownicy() {
         return new ArrayList<>(pracownicy);
-    }
-}
+    }}

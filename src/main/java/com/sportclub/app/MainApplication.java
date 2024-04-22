@@ -146,7 +146,7 @@ public class MainApplication {
             out.println(Praca.getZadaniePoId(2));
 
             out.println("\nDodatkowa metoda recepcjonisty:");
-            recepcjonista1.checkInGuest("Bartłomiej");
+            recepcjonista1.sprawdzKlienta("Bartłomiej");
 
             out.println("\nManager boiska - zadania i zespoły:");
             manager_boiska.pokazZespolyIZadaniaDoNich();

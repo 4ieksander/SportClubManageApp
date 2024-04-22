@@ -10,11 +10,13 @@ import java.util.stream.Collectors;
 
 public class Praca implements Runnable {        // poczytaj troche runnable
     private static int nextId = 1;
+    private static Map<Integer, Zadanie> mapaZadan = new HashMap<>();       // map -> coś jak dziennik w pythonie
+
     private final int id;
     private List<Zadanie> zadania;
     private String opis;
     private Zespol zespol;
-    private static Map<Integer, Zadanie> mapaZadan = new HashMap<>();       // map -> coś jak dziennik w pythonie
+
 
     public Praca(String opis, Zespol zespol) {
         this.id = nextId++;
@@ -25,19 +27,6 @@ public class Praca implements Runnable {        // poczytaj troche runnable
 
     }
 
-    @Override
-    public String toString() {
-        String listaZadan = zadania.stream()
-                .map(Zadanie::toString)
-                .collect(Collectors.joining(", "));
-
-        return "Praca{" +
-                "id=" + id +
-                ", zadania=[" + listaZadan + "]" +
-                ", opis='" + opis + '\'' +
-                ", zespol=" + zespol +
-                '}';
-    }
 
     public static Zadanie getZadaniePoId(int id) {
         return mapaZadan.get(id);
@@ -53,9 +42,7 @@ public class Praca implements Runnable {        // poczytaj troche runnable
     }
 
 
-    /**
-     // Metoda wykonująca wszystkie zadania związane z pracą.
-     */
+    // implementacja interfejsu runnable
     @Override
     public void run() {
         if (zadania.isEmpty()) {
@@ -78,9 +65,19 @@ public class Praca implements Runnable {        // poczytaj troche runnable
             }
         }
     }
-    private boolean czyKtosJestChory() {        // funkcja zeby bylo czysciej
-        return zespol.getPracownicy().stream()  // Pobiera strumień pracowników zespołu
-                .anyMatch(pracownik -> !pracownik.getCzyZdrowy());  // Sprawdza, czy którykolwiek pracownik jest chory
+
+    @Override
+    public String toString() {
+        String listaZadan = zadania.stream()
+                .map(Zadanie::toString)
+                .collect(Collectors.joining(", "));
+
+        return "Praca{" +
+                "id=" + id +
+                ", zadania=[" + listaZadan + "]" +
+                ", opis='" + opis + '\'' +
+                ", zespol=" + zespol +
+                '}';
     }
 
 
@@ -103,4 +100,11 @@ public class Praca implements Runnable {        // poczytaj troche runnable
     public void setZespol(Zespol zespol) {
         this.zespol = zespol;
     }
+
+
+    private boolean czyKtosJestChory() {        // funkcja pomocnicza
+        return zespol.getPracownicy().stream()  // Pobiera strumień pracowników zespołu
+                .anyMatch(pracownik -> !pracownik.getCzyZdrowy());  // Sprawdza, czy którykolwiek pracownik jest chory
+    }
+
 }

@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class Zadanie extends Thread {
     private static int nextId = 1;
+
     private final int id;
     private String nazwa;
     private String opis;
@@ -31,20 +32,8 @@ public class Zadanie extends Thread {
         this(nazwa, "Brak opisu", false);
     }
 
-    @Override
-    public String toString() {
-        return "Zadanie{" +
-                "id= " + id + ", " +
-                "nazwa='" + nazwa + '\'' +
-                ", opis='" + opis + '\'' +
-                ", stan=" + stan +
-                ", dataUtworzenia=" + dataUtworzenia +
-                ", dataZakonczenia=" + dataZakonczenia +
-                ", czasWykonania=" + czasWykonania +
-                '}';
-    }
 
-    // Główna metoda
+    // nadpisanie run() z Thread
     @Override
     public void run() {
         if (!zatwierdzone) {
@@ -71,49 +60,50 @@ public class Zadanie extends Thread {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Zadanie{" +
+                "id= " + id + ", " +
+                "nazwa='" + nazwa + '\'' +
+                ", opis='" + opis + '\'' +
+                ", stan=" + stan +
+                ", dataUtworzenia=" + dataUtworzenia +
+                ", dataZakonczenia=" + dataZakonczenia +
+                ", czasWykonania=" + czasWykonania +
+                '}';
+    }
 
     // gettery i settery
-
     public int getZadanieId() { // getId() jest zajęte przez Thread zwracającą rzeczywiste id
         return this.id;
     }
-
     public String getNazwa() {
         return nazwa;
     }
-
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
     }
-
     public String getOpis() {
         return opis;
     }
-
     public void setOpis(String opis) {
         this.opis = opis;
     }
-
     public String getStan() {
         return stan.name();
     }
-
     public boolean isZatwierdzone() {
         return zatwierdzone;
     }
-
     public void setZatwierdzone(boolean zatwierdzone) {
         this.zatwierdzone = zatwierdzone;
     }
-
     public long getCzasWykonania() {
         return czasWykonania;
     }
-
     public LocalDateTime getDataUtworzenia() {
         return dataUtworzenia;
     }
-
     public LocalDateTime getDataZakonczenia() {
         return dataZakonczenia;
     }
